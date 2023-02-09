@@ -1,0 +1,65 @@
+difference between HTTP 1.1 and HTTP 2:
+The Background:
+HTTP/1.1:
+     The client (browser) has to send a request to the server using the method (GET/POST).
+Server responds with the requested resource, for example – image, alongside the status of
+     what it did to the client’s request.    
+HTTP/2:
+     HTTP/2 was released at Google as the significant improvement of its predecessor.
+It was initially modeled after the SPDY protocol and went through significant
+changes to include features like multiplexing, header compression, and stream prioritization to minimize page load latency.
+     After its release, Google announced that it would not provide support for SPDY in favor of HTTP/2.
+  
+Delivery Models:
+HTTP/1.1:
+     HTTP/1.1 addresses this problem by creating a persistent connection between server and client.
+Until explicitly closed, this connection will remain open. So, the client can use one TCP connection 
+throughout the communication sans interrupting it again and again.
+     This approach surely ensures good performance, but it also is problematic.
+     For example – If a request at the queue head cannot retrieve its required resources, it can block all requests behind it.
+This phenomenon is called head-of-line blocking (HOL blocking).
+
+HTTP/2:
+     The problems of HTTP/1.1 looks resolved to a great extent here.
+     However, at times, multiple data streams demanding the same resource can hinder HTTP/2’s performance.
+     To achieve better performance, HTTP/2 has another way. It has the capability of stream prioritization.
+When sending streams in parallel, the client can assign weights (1-256) to its stream to prioritize the
+responses it demands. Here, the higher the weight, the higher the priority. The serve sets the data retrieval
+order as per the request’s weight.
+
+Predicting Resource Requests:
+
+     To accomplish this, HTTP/1.1 has a different technique called resource inlining, wherein the server includes
+the required source within the HTML page in response to the initial GET request.
+     Though this technique reduces the number of requests that the client must send, the larger,
+non-text format files increase the size of the page.
+     As a result, the connection speed decreases, and the primary benefit obtained from it also nullifies.
+Another drawback is the client cannot separate the inlined resources from the HTML page.
+HTTP/2:
+     As HTTP/2 supports multiple simultaneous responses to the client’s initial GET request, the server
+provides the required resource along with the requested HTML page. This is called the server push process,
+which performs the resource inlining like its precursor while keeping the page and the pushed resource separate.
+     This process fixes the main drawback of resource inlining by enabling the client machine to decide to cache/decline 
+the pushed resource separate from the HTML page.
+
+Buffer Overflow:
+HTTP/1.1:
+     The flow control mechanism in HTTP/1.1 relies on the basic TCP connection. In beginning itself, both the machines
+set their buffer sizes automatically.
+     If the receiver’s buffer is full, it shares the receive window details, telling how much available space is left. 
+The receiver acknowledges the same and sends an opening signal.
+     Note that flow control can only be implemented on either end of the connection. 
+Moreover, since HTTP/1.1 uses a TCP connection, each connection demands an individual flow control mechanism.
+HTTP/2:
+     It multiplexes data streams utilizing the same (one) TCP connection. So, in this case, both machines can 
+implement their flow controls instead of using the transport layer. 
+     The application layer shares the available buffer size data, after which, both machines set their receive window details 
+on the multiplexed streams level. In addition, the flow control mechanism does not need to wait for the signal
+to reach its destination before modifying the receive window.
+________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
+Objects and its internal representation in Javascript:
+
+Object:
+In JavaScript, an object is a standalone entity, with properties and type. Compare it with a cup, for example. A cup is an object, with properties. A cup has a color, a design, weight, a material it is made of, etc. The same way, JavaScript objects can have properties, which define their characteristics.
+
